@@ -16,7 +16,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
-                android:background="@drawable/search_box_background"
+                android:background="@color/white"
                 android:orientation="vertical"
 
                 >
@@ -40,9 +40,9 @@
                     android:id="@+id/linearLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="64dp"
+                    android:layout_marginStart="0dp"
                     android:layout_marginTop="20dp"
-                    android:layout_marginEnd="64dp"
+                    android:layout_marginEnd="0dp"
                     android:layout_marginBottom="20dp"
                     android:orientation="vertical">
 
@@ -53,13 +53,13 @@
                         android:layout_height="50dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
-                        android:background="@drawable/search_input"
+                        android:background="@drawable/search_box_background"
                         android:ems="10"
                         android:gravity="center"
                         android:inputType="text"
                         android:hint="Category"
                         android:textColor="#ffffff"
-                        android:textColorHint="#ffffff"
+                        android:textColorHint="#000000"
                         android:textSize="18sp" />
 
                     <EditText
@@ -68,13 +68,13 @@
                         android:layout_height="50dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
-                        android:background="@drawable/search_input"
+                        android:background="@drawable/search_box_background"
                         android:ems="10"
                         android:gravity="center"
                         android:inputType="text"
                         android:hint="Location"
                         android:textColor="#ffffff"
-                        android:textColorHint="#ffffff"
+                        android:textColorHint="#000000"
                         android:textSize="18sp" />
 
                     <androidx.appcompat.widget.AppCompatButton
@@ -113,12 +113,10 @@
             </LinearLayout>
 
 
-
             <ListView
                 android:id="@+id/listView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                >
+                android:layout_height="match_parent">
 
             </ListView>
 
