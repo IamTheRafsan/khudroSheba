@@ -8,11 +8,15 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -31,12 +35,12 @@ import java.util.HashMap;
 
 public class search extends Fragment {
 
-    EditText edCategory;
-    TextView Dname, Dcategory, Dservice, Ddescription;
+    TextView Dname, Dcategory, Dservice, Ddescription, header;
     Button searchBtn;
     ListView listView;
     HashMap<String, String> hashMap;
     ArrayList<HashMap<String, String>> arrayList = new ArrayList<>();
+    AutoCompleteTextView categorySpinner, districtSpinner, thanaSpinner;
 
 
 
@@ -45,11 +49,73 @@ public class search extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View myView = inflater.inflate(R.layout.fragment_search, container, false);
-        edCategory = myView.findViewById(R.id.edCategory);
+
         searchBtn = myView.findViewById(R.id.searchBtn);
+        header = myView.findViewById(R.id.header1);
         listView = myView.findViewById(R.id.listView);
+        AutoCompleteTextView categorySpinner = myView.findViewById(R.id.categorySpinner);
+        AutoCompleteTextView districtSpinner = myView.findViewById(R.id.districtSpinner);
+        AutoCompleteTextView thanaSpinner = myView.findViewById(R.id.thanaSpinner);
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
 
+        String [] category_items = getResources().getStringArray(R.array.category_items);
+        String [] district_items = getResources().getStringArray(R.array.district_items);
+        String [] thana_items_dhaka = getResources().getStringArray(R.array.thana_items_dhaka);
+
+        ArrayAdapter<String> categoryAdapter=new ArrayAdapter<String>(getActivity(), R.layout.category_list, category_items);
+        categorySpinner.setAdapter(categoryAdapter);
+
+        ArrayAdapter<String> districtAdapter=new ArrayAdapter<String>(getActivity(), R.layout.category_list, district_items);
+        districtSpinner.setAdapter(districtAdapter);
+
+
+        ArrayAdapter<String> thanaAdapter=new ArrayAdapter<String>(getActivity(), R.layout.category_list, thana_items_dhaka);
+        thanaSpinner.setAdapter(thanaAdapter);
+
+
+        districtSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // 'position' variable contains the selected item's position
+                String selectedItem = (String) parent.getItemAtPosition(position);
+                String dis1 = "Dhaka";
+                String dis2 = "Chittagong";
+                String dis3 = "Rajshahi";
+                String dis4 = "Barisal";
+                String dis5 = "Sylhet";
+
+
+
+                if (selectedItem.equals(dis1))
+                {
+                    ArrayAdapter<String> thanaAdapter=new ArrayAdapter<String>(getActivity(), R.layout.category_list, thana_items_dhaka);
+                    thanaSpinner.setAdapter(thanaAdapter);
+
+                }
+                else if(selectedItem.equals(dis2))
+                {
+                    String [] thana_items_chittagong = getResources().getStringArray(R.array.thana_items_chittagong);
+                    ArrayAdapter<String> thanaAdapter=new ArrayAdapter<String>(getActivity(), R.layout.category_list, thana_items_chittagong);
+                    thanaSpinner.setAdapter(thanaAdapter);
+                }
+                else if (selectedItem.equals(dis3))
+                {
+                    ArrayAdapter<String> thanaAdapter=new ArrayAdapter<String>(getActivity(), R.layout.category_list, thana_items_dhaka);
+                    thanaSpinner.setAdapter(thanaAdapter);
+                }
+                else if (selectedItem.equals(dis4))
+                {
+                    ArrayAdapter<String> thanaAdapter=new ArrayAdapter<String>(getActivity(), R.layout.category_list, thana_items_dhaka);
+                    thanaSpinner.setAdapter(thanaAdapter);
+                }
+                else if (selectedItem.equals(dis5))
+                {
+                    ArrayAdapter<String> thanaAdapter=new ArrayAdapter<String>(getActivity(), R.layout.category_list, thana_items_dhaka);
+                    thanaSpinner.setAdapter(thanaAdapter);
+                }
+
+            }
+        });
 
 
 
@@ -125,7 +191,7 @@ public class search extends Fragment {
     //-----------------------
     private void loadData()
     {
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, "https://servvvv.000webhostapp.com/app/search.php?c="+edCategory.getText().toString(), null, new Response.Listener<JSONArray>() {
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, "https://servvvv.000webhostapp.com/app/search.php?c="+categorySpinner.getText().toString(), null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
 

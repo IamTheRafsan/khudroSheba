@@ -26,7 +26,7 @@ import org.json.JSONObject;
 
 public class dashboard_details extends Fragment {
 
-    TextView serviceBox, categoryBox, mobileBox, descriptionBox;
+    TextView locationBox, serviceBox, categoryBox, mobileBox, descriptionBox;
     Button updateFragment;
 
 
@@ -34,6 +34,7 @@ public class dashboard_details extends Fragment {
                              Bundle savedInstanceState) {
         View myView = inflater.inflate(R.layout.fragment_dashboard_details, container, false);
 
+        locationBox = myView.findViewById(R.id.location);
         serviceBox = myView.findViewById(R.id.service);
         categoryBox = myView.findViewById(R.id.category);
         mobileBox = myView.findViewById(R.id.mobile);
@@ -57,11 +58,14 @@ public class dashboard_details extends Fragment {
                         String name = jsonObject.getString("name");
                         String email = jsonObject.getString("email");
                         String password = jsonObject.getString("password");
+                        String district = jsonObject.getString("district");
+                        String thana = jsonObject.getString("thana");
                         String service = jsonObject.getString("service");
                         String category = jsonObject.getString("category");
                         String mobile = jsonObject.getString("mobile");
                         String description = jsonObject.getString("description");
 
+                        locationBox.setText(thana+", "+district);
                         serviceBox.setText(service);
                         categoryBox.setText(category);
                         mobileBox.setText(mobile);

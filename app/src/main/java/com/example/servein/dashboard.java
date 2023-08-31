@@ -9,14 +9,24 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class dashboard extends AppCompatActivity {
 
+    TextView proName, proEmail;
     TabLayout tabLayout;
     ViewPager2 viewPager2;
-    TextView proEmail;
     SharedPreferences sharedPreferences;
 
     @Override
@@ -24,9 +34,10 @@ public class dashboard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
+        proName = findViewById(R.id.proName);
+        proEmail = findViewById(R.id.proEmail);
         TabLayout tabLayout = findViewById(R.id.dashboardTab);
         ViewPager2 viewPager2 = findViewById(R.id.viewPager2);
-        proEmail = findViewById(R.id.proEmail);
 
         sharedPreferences = getSharedPreferences("servIn", Context.MODE_PRIVATE);
 
@@ -35,7 +46,6 @@ public class dashboard extends AppCompatActivity {
 
         MyAdapter2 MyAdapter2 = new MyAdapter2(getSupportFragmentManager(), getLifecycle());
         viewPager2.setAdapter(MyAdapter2);
-
 
 
 
@@ -59,6 +69,51 @@ public class dashboard extends AppCompatActivity {
 
             }
         }).attach();
+
+
+
+        //-----------------------------------------dashboard
+
+        String email = "sending.to.evan@gmail.com";
+        String password = "evan123";
+
+        String url = "http://servvvv.000webhostapp.com/app/userDetail.php?e="+email+"&p="+password;
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+
+
+                for (int x=0; x < response.length(); x++)
+                {
+                    try {
+                        JSONObject jsonObject = response.getJSONObject(x);
+                        String name = jsonObject.getString("name");
+                        String email = jsonObject.getString("email");
+
+
+                        proName.setText(name);
+                        proEmail.setText(email);
+
+
+
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+
+        RequestQueue requestQueue = Volley.newRequestQueue(dashboard.this);
+        requestQueue.add(jsonArrayRequest);
 
 
     }
