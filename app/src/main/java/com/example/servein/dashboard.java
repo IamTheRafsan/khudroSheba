@@ -49,12 +49,12 @@ public class dashboard extends AppCompatActivity {
 
                 }
                 else if(position == 1){
-                    tab.setText("Message");
-                    tab.setIcon(R.drawable.chat_icon);
-                }
-                else if(position == 2){
                     tab.setText("Transaction");
                     tab.setIcon(R.drawable.transaction_icon);
+                }
+                else if(position == 2){
+                    tab.setText("Reviews");
+                    tab.setIcon(R.drawable.review_icon);
                 }
 
             }

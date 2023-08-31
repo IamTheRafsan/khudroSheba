@@ -47,11 +47,20 @@ public class home extends AppCompatActivity {
                     Toast.makeText(home.this, "This page is not available", Toast.LENGTH_SHORT).show();
                 }
 
+                else if(item.getItemId()==R.id.menuMessages)
+                {
+                    FragmentManager fManager = getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.frameLayout, new messages());
+                    fragmentTransaction.commit();
+                }
+
                 else if(item.getItemId()==R.id.menuProfile)
                 {
                     Intent myIntent = new Intent(home.this, dashboard.class);
                     startActivity(myIntent);
                 }
+
                 return true;
             }
         });

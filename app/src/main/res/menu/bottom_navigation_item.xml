@@ -17,6 +17,14 @@
         android:icon="@drawable/categoryicon"/>
 
     <item
+        android:title="Messages"
+        android:id="@+id/menuMessages"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/chat_icon"/>
+
+
+    <item
         android:id="@+id/menuProfile"
         android:title="Profile"
         android:layout_width="wrap_content"
