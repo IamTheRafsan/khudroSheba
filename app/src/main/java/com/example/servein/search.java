@@ -41,6 +41,9 @@ public class search extends Fragment {
     HashMap<String, String> hashMap;
     ArrayList<HashMap<String, String>> arrayList = new ArrayList<>();
     AutoCompleteTextView categorySpinner, districtSpinner, thanaSpinner;
+    private String sCategory = "";
+    private  String sDistrict = "";
+    private String sThana = "";
 
 
 
@@ -53,10 +56,9 @@ public class search extends Fragment {
         searchBtn = myView.findViewById(R.id.searchBtn);
         header = myView.findViewById(R.id.header1);
         listView = myView.findViewById(R.id.listView);
-        AutoCompleteTextView categorySpinner = myView.findViewById(R.id.categorySpinner);
-        AutoCompleteTextView districtSpinner = myView.findViewById(R.id.districtSpinner);
-        AutoCompleteTextView thanaSpinner = myView.findViewById(R.id.thanaSpinner);
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        categorySpinner = myView.findViewById(R.id.categorySpinner);
+        districtSpinner = myView.findViewById(R.id.districtSpinner);
+        thanaSpinner = myView.findViewById(R.id.thanaSpinner);
 
         String [] category_items = getResources().getStringArray(R.array.category_items);
         String [] district_items = getResources().getStringArray(R.array.district_items);
@@ -73,10 +75,26 @@ public class search extends Fragment {
         thanaSpinner.setAdapter(thanaAdapter);
 
 
+        categorySpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                sCategory = (String) parent.getItemAtPosition(position);
+            }
+        });
+
+        thanaSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                sThana = (String) parent.getItemAtPosition(position);
+            }
+        });
+
+
         districtSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // 'position' variable contains the selected item's position
+                sDistrict = (String) parent.getItemAtPosition(position);
                 String selectedItem = (String) parent.getItemAtPosition(position);
                 String dis1 = "Dhaka";
                 String dis2 = "Chittagong";
@@ -128,11 +146,8 @@ public class search extends Fragment {
 
                 loadData();
 
-
             }
         });
-
-
 
 
         return myView;
@@ -171,6 +186,9 @@ public class search extends Fragment {
             hashMap = arrayList.get(position);
             String name = hashMap.get("name");
             String email = hashMap.get("email");
+            String password = hashMap.get("password");
+            String district = hashMap.get("district");
+            String thana = hashMap.get("thana");
             String service = hashMap.get("service");
             String category = hashMap.get("category");
             String mobile = hashMap.get("mobile");
@@ -181,6 +199,7 @@ public class search extends Fragment {
             Dcategory.setText(category);
             Ddescription.setText(description);
 
+            Toast.makeText(getActivity(), "gig working", Toast.LENGTH_LONG).show();
 
 
             return mView;
@@ -188,10 +207,11 @@ public class search extends Fragment {
     }
 
 
+
     //-----------------------
     private void loadData()
     {
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, "https://servvvv.000webhostapp.com/app/search.php?c="+categorySpinner.getText().toString(), null, new Response.Listener<JSONArray>() {
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, "https://servvvv.000webhostapp.com/app/search.php?c="+sCategory+"&di="+sDistrict+"&th="+sThana, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
 
@@ -202,6 +222,9 @@ public class search extends Fragment {
                         JSONObject jsonObject = response.getJSONObject(x);
                         String name = jsonObject.getString("name");
                         String email = jsonObject.getString("email");
+                        String password = jsonObject.getString("password");
+                        String district = jsonObject.getString("district");
+                        String thana = jsonObject.getString("thana");
                         String service = jsonObject.getString("service");
                         String category = jsonObject.getString("category");
                         String mobile = jsonObject.getString("mobile");
@@ -210,6 +233,9 @@ public class search extends Fragment {
                         hashMap = new HashMap<>();
                         hashMap.put("name", name);
                         hashMap.put("email", email);
+                        hashMap.put("password", password);
+                        hashMap.put("district", district);
+                        hashMap.put("thana", thana);
                         hashMap.put("service", service);
                         hashMap.put("category", category);
                         hashMap.put("mobile", mobile);
@@ -233,19 +259,20 @@ public class search extends Fragment {
                     listView.setAdapter(myAdapter);
                 }
 
-
+                Toast.makeText(getActivity(), "working", Toast.LENGTH_LONG).show();
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getActivity(), "not working", Toast.LENGTH_LONG).show();
 
             }
         });
 
 
 
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         requestQueue.add(jsonArrayRequest);
 
     }
