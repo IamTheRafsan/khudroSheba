@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="@drawable/item_background"
-        android:layout_margin="10dp">
+        android:layout_margin="15dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -53,6 +53,11 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:src="@drawable/star" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/star" />
             </LinearLayout>
 
         </LinearLayout>
@@ -61,7 +66,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
             android:layout_marginBottom="10dp"
             android:layout_marginRight="10dp">
 
@@ -70,48 +75,48 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Name"
+                android:maxLines="1"
                 android:textSize="18sp"
                 android:textStyle="bold"/>
 
+            <TextView
+                android:id="@+id/Dlocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Location"
+                android:maxLines="1"
+                android:textSize="12sp"
+                android:layout_marginTop="5dp"
+                />
             <TextView
                 android:id="@+id/Dcategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Category"
-                android:maxLines="3"
-                android:textSize="14sp"
+                android:maxLines="1"
+                android:textSize="12sp"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
                 />
             <TextView
                 android:id="@+id/Dservice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Service title"
-                android:maxLines="3"
-                android:textSize="14sp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                />
-            <TextView
-                android:id="@+id/Ddescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Description"
+                android:text="Service"
                 android:maxLines="3"
                 android:textSize="14sp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 />
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_gravity="center"
+                android:weightSum="2"
                 >
 
                 <Button
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:background="@drawable/button_background"
                     android:text="CALL"
@@ -120,10 +125,11 @@
                     android:textStyle="bold"
                     android:padding="0dp"
                     android:layout_marginRight="10dp"
+                    android:layout_weight="1"
                     android:textAlignment="center"/>
 
                 <Button
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:background="@drawable/button_background"
                     android:text="CHAT"
@@ -131,6 +137,7 @@
                     android:textSize="12sp"
                     android:textStyle="bold"
                     android:padding="0dp"
+                    android:layout_weight="1"
                     android:textAlignment="center"/>
 
             </LinearLayout>

@@ -15,7 +15,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="220dp"
+            android:layout_height="190dp"
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -26,9 +26,9 @@
 
                 <ImageView
                     android:id="@+id/imageView"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_marginTop="24dp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="20dp"
                     android:src="@drawable/profile_pic"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -38,8 +38,8 @@
                     android:id="@+id/proName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Name"
+                    android:layout_marginTop="5dp"
+                    android:text=""
                     android:textColor="@color/white"
                     android:textSize="20sp"
                     android:textStyle="bold"
@@ -51,9 +51,10 @@
                     android:id="@+id/proEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Email@email.com"
+                    android:text=""
                     android:textColor="@color/white"
                     android:textSize="14sp"
+                    android:layout_marginTop="3dp"
                     app:layout_constraintEnd_toEndOf="@+id/imageView"
                     app:layout_constraintStart_toStartOf="@+id/imageView"
                     app:layout_constraintTop_toBottomOf="@+id/proName" />
@@ -126,7 +127,8 @@
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/dashboardTab"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="65dp"
+                android:layout_marginBottom="5dp"
                 >
 
                 <com.google.android.material.tabs.TabItem
@@ -159,7 +161,7 @@
         android:id="@+id/viewPager2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="300dp"
+        android:layout_marginTop="255dp"
         >
 
     </androidx.viewpager2.widget.ViewPager2>

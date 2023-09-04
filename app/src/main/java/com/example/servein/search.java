@@ -35,7 +35,7 @@ import java.util.HashMap;
 
 public class search extends Fragment {
 
-    TextView Dname, Dcategory, Dservice, Ddescription, header;
+    TextView Dname, Dlocation, Dcategory, Dservice, header;
     Button searchBtn;
     ListView listView;
     HashMap<String, String> hashMap;
@@ -136,7 +136,7 @@ public class search extends Fragment {
         });
 
 
-
+        loadData();
 
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -181,7 +181,7 @@ public class search extends Fragment {
             Dname = mView.findViewById(R.id.Dname);
             Dservice = mView.findViewById(R.id.Dservice);
             Dcategory = mView.findViewById(R.id.Dcategory);
-            Ddescription = mView.findViewById(R.id.Ddescription);
+            Dlocation = mView.findViewById(R.id.Dlocation);
 
             hashMap = arrayList.get(position);
             String name = hashMap.get("name");
@@ -197,9 +197,7 @@ public class search extends Fragment {
             Dname.setText(name);
             Dservice.setText(service);
             Dcategory.setText(category);
-            Ddescription.setText(description);
-
-            Toast.makeText(getActivity(), "gig working", Toast.LENGTH_LONG).show();
+            Dlocation.setText(thana+", "+district);
 
 
             return mView;
@@ -259,13 +257,10 @@ public class search extends Fragment {
                     listView.setAdapter(myAdapter);
                 }
 
-                Toast.makeText(getActivity(), "working", Toast.LENGTH_LONG).show();
-
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getActivity(), "not working", Toast.LENGTH_LONG).show();
 
             }
         });

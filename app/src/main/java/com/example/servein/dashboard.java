@@ -74,10 +74,12 @@ public class dashboard extends AppCompatActivity {
 
         //-----------------------------------------dashboard
 
-        String email = "sending.to.evan@gmail.com";
-        String password = "evan123";
+        SharedPreferences sharedPreferences = getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE);
+        String userEmail = sharedPreferences.getString("userEmail", "");
+        String  userPassword = sharedPreferences.getString("userPassword", "");
 
-        String url = "http://servvvv.000webhostapp.com/app/userDetail.php?e="+email+"&p="+password;
+
+        String url = "http://servvvv.000webhostapp.com/app/userDetail.php?e="+userEmail+"&p="+userPassword;
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override

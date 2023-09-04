@@ -1,7 +1,10 @@
 package com.example.servein;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.content.Context;
+
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -28,6 +31,7 @@ public class dashboard_details extends Fragment {
 
     TextView locationBox, serviceBox, categoryBox, mobileBox, descriptionBox;
     Button updateFragment;
+    SharedPreferences sharedPreferences;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,10 +45,13 @@ public class dashboard_details extends Fragment {
         descriptionBox = myView.findViewById(R.id.description);
         updateFragment = myView.findViewById(R.id.updateFragment);
 
-        String email = "sending.to.evan@gmail.com";
-        String password = "evan123";
 
-        String url = "http://servvvv.000webhostapp.com/app/userDetail.php?e="+email+"&p="+password;
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE);
+        String userEmail = sharedPreferences.getString("userEmail", "");
+        String  userPassword = sharedPreferences.getString("userPassword", "");
+
+
+        String url = "http://servvvv.000webhostapp.com/app/userDetail.php?e="+userEmail+"&p="+userPassword;
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override

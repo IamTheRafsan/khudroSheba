@@ -37,8 +37,6 @@ public class signIn extends Fragment {
     EditText signInEmail,signInPassword;
     Button signInBtn;
     ProgressBar progressBar;
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -85,6 +83,12 @@ public class signIn extends Fragment {
 
                             else
                             {
+
+                                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("userEmail", email);
+                                editor.putString("userPassword", password);
+                                editor.apply();
 
                                 Intent myintent = new Intent(getActivity(), home.class);
                                 startActivity(myintent);
