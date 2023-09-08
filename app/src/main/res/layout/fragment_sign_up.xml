@@ -15,8 +15,8 @@
             android:id="@+id/linearLayout"
             android:layout_width="277dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
             android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -34,8 +34,8 @@
                 android:inputType="text"
                 android:textColor="@color/black"
                 android:textColorHint="@color/hint"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textSize="16sp"
+                />
 
             <EditText
                 android:id="@+id/signUpEmail"
@@ -50,8 +50,8 @@
                 android:inputType="text"
                 android:textColor="@color/black"
                 android:textColorHint="@color/hint"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textSize="16sp"
+                />
 
             <EditText
                 android:id="@+id/signUpPassword"
@@ -66,8 +66,8 @@
                 android:inputType="text"
                 android:textColor="@color/black"
                 android:textColorHint="@color/hint"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textSize="16sp"
+                />
 
             <EditText
                 android:id="@+id/signUpConfirmPassword"
@@ -82,8 +82,8 @@
                 android:inputType="text"
                 android:textColor="@color/black"
                 android:textColorHint="@color/hint"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textSize="16sp"
+                />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/signUpBtn"
@@ -94,7 +94,7 @@
                 android:background="@drawable/button_background"
                 android:text="Register"
                 android:textColor="@color/white"
-                android:textSize="18dp" />
+                android:textSize="16dp" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -103,22 +103,11 @@
                 android:gravity="center"
                 android:text="Already Registered? Sign in"
                 android:textColor="@color/black"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textStyle="bold">
 
             </TextView>
 
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:gravity="center"
-                android:text="or, Login with"
-                android:textColor="@color/black"
-                android:textSize="13sp">
-
-            </TextView>
 
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,12 +6,28 @@
     android:layout_height="match_parent"
     tools:context=".messages">
 
-
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Messsages"
-        android:textSize="30sp" />
+        android:orientation="vertical">
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/inboxRecycleView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
 
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </LinearLayout>
 </FrameLayout>
+
+
+
+
+
+
+
+
+
+

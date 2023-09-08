@@ -255,6 +255,9 @@ public class search extends Fragment {
                 {
                     MyAdapter myAdapter = new MyAdapter();
                     listView.setAdapter(myAdapter);
+
+
+
                 }
 
             }
@@ -269,6 +272,24 @@ public class search extends Fragment {
 
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         requestQueue.add(jsonArrayRequest);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Get the selected item from the ArrayList
+                HashMap<String, String> selectedItem = arrayList.get(position);
+
+                // Extract the email from the selected item
+                String selectedEmail = selectedItem.get("email");
+
+                // Now, you have the email, and you can use it as needed (e.g., display it in a toast or navigate to a details page).
+                Toast.makeText(getActivity(), "Selected Email: " + selectedEmail, Toast.LENGTH_SHORT).show();
+
+                // If you want to navigate to a details page with the email, you can do so here.
+                // Example: Start a new Activity or Fragment and pass the email as an extra.
+            }
+        });
+
 
     }
 
