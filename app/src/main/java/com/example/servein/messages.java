@@ -32,7 +32,9 @@ public class messages extends Fragment {
 
     RecyclerView recyclerView;
     HashMap<String, String> hashMap;
-    ArrayList<HashMap<String, String>> arrayList = new ArrayList<>();
+    HashMap<String, String> messageHashMap;
+    ArrayList<HashMap<String, String>> nameList = new ArrayList<>();
+    ArrayList<HashMap<String, String>> messageList = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -68,9 +70,7 @@ public class messages extends Fragment {
                         String category = jsonObject.getString("category");
                         String mobile = jsonObject.getString("mobile");
                         String description = jsonObject.getString("description");
-                        //String sender = jsonObject.getString("sender");
-                        //String receiver = jsonObject.getString("receiver");
-                        //String message = jsonObject.getString("message");
+
 
                         hashMap = new HashMap<>();
                         hashMap.put("name", name);
@@ -82,10 +82,47 @@ public class messages extends Fragment {
                         hashMap.put("category", category);
                         hashMap.put("mobile", mobile);
                         hashMap.put("description", description);
-                        //hashMap.put("sender", sender);
-                        //hashMap.put("receiver", receiver);
-                        //hashMap.put("message", message);
-                        arrayList.add(hashMap);
+                        nameList.add(hashMap);
+
+
+
+
+
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
+                adapter.notifyDataSetChanged();
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+        //--------JSON REQUEST FOR MESSAGES
+
+        JsonArrayRequest messageJsonArrayRequest = new JsonArrayRequest(Request.Method.GET, "https://servvvv.000webhostapp.com/app/inbox_message.php?e=sending.to.evan@gmail.com", null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+
+
+                for (int x=0; x < response.length(); x++)
+                {
+                    try {
+                        JSONObject jsonObject = response.getJSONObject(x);
+                        String sender = jsonObject.getString("sender");
+                        String receiver = jsonObject.getString("receiver");
+                        String message = jsonObject.getString("message");
+
+                        messageHashMap = new HashMap<>();
+                        messageHashMap.put("sender", sender);
+                        messageHashMap.put("receiver", receiver);
+                        messageHashMap.put("message", message);
+                        messageList.add(messageHashMap);
 
                         Toast.makeText(getActivity(), "Working ", Toast.LENGTH_SHORT).show();
 
@@ -96,6 +133,7 @@ public class messages extends Fragment {
                         throw new RuntimeException(e);
                     }
                 }
+                adapter.notifyDataSetChanged();
 
 
             }
@@ -107,8 +145,9 @@ public class messages extends Fragment {
         });
 
 
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         requestQueue.add(jsonArrayRequest);
+        requestQueue.add(messageJsonArrayRequest);
 
         return myView;
     }
@@ -146,22 +185,19 @@ public class messages extends Fragment {
         public void onBindViewHolder(@NonNull myViewHolder holder, int position) {
 
 
-            hashMap = arrayList.get(position);
-            String name = hashMap.get("name");
-            String email = hashMap.get("email");
-            String password = hashMap.get("password");
-            String district = hashMap.get("district");
-            String thana = hashMap.get("thana");
-            String service = hashMap.get("service");
-            String category = hashMap.get("category");
-            String mobile = hashMap.get("mobile");
-            String description = hashMap.get("description");
-            //String sender = hashMap.get("sender");
-            //String receiver = hashMap.get("receiver");
-            //String message = hashMap.get("message");
 
-            holder.Dname.setText(name);
 
+            if (position < nameList.size() && position < messageList.size()) {
+                hashMap = nameList.get(position);
+                messageHashMap = messageList.get(position);
+                String name = hashMap.get("name");
+                String message = messageHashMap.get("message");
+                holder.Dname.setText(name);
+                holder.Dmessage.setText(message);
+            } else {
+                holder.Dname.setText("N/A");
+                holder.Dmessage.setText("N/A");
+            }
 
 
 
@@ -170,7 +206,7 @@ public class messages extends Fragment {
 
         @Override
         public int getItemCount() {
-            return arrayList.size();
+            return messageList.size();
         }
 
     }

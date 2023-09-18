@@ -1,5 +1,6 @@
 package com.example.servein;
 
+import android.content.Intent;
 import android.net.http.SslCertificate;
 import android.os.Bundle;
 
@@ -149,6 +150,8 @@ public class search extends Fragment {
             }
         });
 
+        gig_details();
+
 
         return myView;
     }
@@ -273,24 +276,23 @@ public class search extends Fragment {
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         requestQueue.add(jsonArrayRequest);
 
+
+    }
+
+    private void gig_details()
+    {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Get the selected item from the ArrayList
-                HashMap<String, String> selectedItem = arrayList.get(position);
 
-                // Extract the email from the selected item
-                String selectedEmail = selectedItem.get("email");
+                Intent i = new Intent(getActivity(), gig_details.class);
+                String email = arrayList.get(position).get("email"); // Get the email from the clicked item
+                i.putExtra("email", email); // Add the email to the intent
+                startActivity(i);
 
-                // Now, you have the email, and you can use it as needed (e.g., display it in a toast or navigate to a details page).
-                Toast.makeText(getActivity(), "Selected Email: " + selectedEmail, Toast.LENGTH_SHORT).show();
 
-                // If you want to navigate to a details page with the email, you can do so here.
-                // Example: Start a new Activity or Fragment and pass the email as an extra.
             }
         });
-
-
     }
 
 
