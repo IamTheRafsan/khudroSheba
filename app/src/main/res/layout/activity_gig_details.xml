@@ -294,6 +294,7 @@
             android:weightSum="2">
 
             <Button
+                android:id="@+id/callBtn"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginRight="10dp"
@@ -307,6 +308,7 @@
                 android:textStyle="bold" />
 
             <Button
+                android:id="@+id/chatBtn"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_weight="1"

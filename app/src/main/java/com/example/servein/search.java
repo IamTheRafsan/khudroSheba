@@ -1,6 +1,8 @@
 package com.example.servein;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.http.SslCertificate;
 import android.os.Bundle;
 
@@ -15,6 +17,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,7 +40,7 @@ import java.util.HashMap;
 public class search extends Fragment {
 
     TextView Dname, Dlocation, Dcategory, Dservice, header;
-    Button searchBtn;
+    Button searchBtn,call;
     ListView listView;
     HashMap<String, String> hashMap;
     ArrayList<HashMap<String, String>> arrayList = new ArrayList<>();
@@ -45,7 +48,7 @@ public class search extends Fragment {
     private String sCategory = "";
     private  String sDistrict = "";
     private String sThana = "";
-
+    LinearLayout gigItem;
 
 
 
@@ -150,7 +153,9 @@ public class search extends Fragment {
             }
         });
 
-        gig_details();
+
+
+
 
 
         return myView;
@@ -185,6 +190,9 @@ public class search extends Fragment {
             Dservice = mView.findViewById(R.id.Dservice);
             Dcategory = mView.findViewById(R.id.Dcategory);
             Dlocation = mView.findViewById(R.id.Dlocation);
+            gigItem = mView.findViewById(R.id.gigItem);
+
+
 
             hashMap = arrayList.get(position);
             String name = hashMap.get("name");
@@ -201,6 +209,25 @@ public class search extends Fragment {
             Dservice.setText(service);
             Dcategory.setText(category);
             Dlocation.setText(thana+", "+district);
+
+            gigItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    SharedPreferences sharedPreferences2 = getActivity().getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences2.edit();
+                    editor.putString("userEmail", email);
+                    editor.putString("userPassword", password);
+                    editor.apply();
+
+                    Intent myIntent = new Intent(getActivity(), gig_details.class);
+                    startActivity(myIntent);
+
+
+                }
+            });
+
+
 
 
             return mView;
@@ -279,21 +306,12 @@ public class search extends Fragment {
 
     }
 
-    private void gig_details()
+    private void getemail()
     {
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                Intent i = new Intent(getActivity(), gig_details.class);
-                String email = arrayList.get(position).get("email"); // Get the email from the clicked item
-                i.putExtra("email", email); // Add the email to the intent
-                startActivity(i);
-
-
-            }
-        });
+        Toast.makeText(getActivity(), "Selected email: ", Toast.LENGTH_SHORT).show();
     }
+
+
 
 
 
