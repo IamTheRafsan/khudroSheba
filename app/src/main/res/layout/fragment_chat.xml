@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".chat">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp"
+        >
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="650dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/chatRecycleView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+            </androidx.recyclerview.widget.RecyclerView>
+        </ScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            >
+
+            <EditText
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:background="@drawable/input_background"
+                android:textSize="14sp"
+                android:hint="  Message"
+                android:layout_marginRight="5dp"
+                >
+            </EditText>
+
+            <Button
+                android:id="@+id/sendBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Send"
+                android:textSize="14sp"
+                >
+
+            </Button>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+
+
+
+</FrameLayout>

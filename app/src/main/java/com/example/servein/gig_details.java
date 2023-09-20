@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,7 @@ import org.json.JSONObject;
 public class gig_details extends AppCompatActivity {
 
     TextView locationBox, serviceBox, categoryBox, mobileBox, descriptionBox, proName, proEmail;
+    Button
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
