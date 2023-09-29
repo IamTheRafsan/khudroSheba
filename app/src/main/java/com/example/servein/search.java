@@ -214,10 +214,11 @@ public class search extends Fragment {
                 @Override
                 public void onClick(View v) {
 
-                    SharedPreferences sharedPreferences2 = getActivity().getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE);
+                    SharedPreferences sharedPreferences2 = getActivity().getSharedPreferences("MyAppPreferences2", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences2.edit();
-                    editor.putString("userEmail", email);
-                    editor.putString("userPassword", password);
+                    editor.putString("xemail", email);
+                    editor.putString("xpassword", password);
+                    editor.putString("xname", name);
                     editor.apply();
 
                     Intent myIntent = new Intent(getActivity(), gig_details.class);

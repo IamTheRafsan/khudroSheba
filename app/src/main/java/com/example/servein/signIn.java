@@ -84,11 +84,51 @@ public class signIn extends Fragment {
                             else
                             {
 
-                                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE);
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putString("userEmail", email);
-                                editor.putString("userPassword", password);
-                                editor.apply();
+                                String url = "http://servvvv.000webhostapp.com/app/userDetail.php?e="+email+"&p="+password;
+                                JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+                                    @Override
+                                    public void onResponse(JSONArray response) {
+
+
+                                        for (int x=0; x < response.length(); x++)
+                                        {
+                                            try {
+                                                JSONObject jsonObject = response.getJSONObject(x);
+                                                String name = jsonObject.getString("name");
+                                                String email = jsonObject.getString("email");
+                                                String password = jsonObject.getString("password");
+                                                String district = jsonObject.getString("district");
+                                                String thana = jsonObject.getString("thana");
+                                                String service = jsonObject.getString("service");
+                                                String category = jsonObject.getString("category");
+                                                String mobile = jsonObject.getString("mobile");
+                                                String description = jsonObject.getString("description");
+
+                                                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE);
+                                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                                editor.putString("userEmail", email);
+                                                editor.putString("userPassword", password);
+                                                editor.putString("userName", name);
+                                                editor.apply();
+
+
+                                            } catch (JSONException e) {
+                                                throw new RuntimeException(e);
+                                            }
+                                        }
+
+
+                                    }
+                                }, new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+
+                                    }
+                                });
+
+
+                                RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+                                requestQueue.add(jsonArrayRequest);
 
                                 Intent myintent = new Intent(getActivity(), home.class);
                                 startActivity(myintent);

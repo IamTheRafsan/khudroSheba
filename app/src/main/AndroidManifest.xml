@@ -17,7 +17,13 @@
         android:theme="@style/Theme.ServeIn"
         tools:targetApi="31">
         <activity
+            android:name=".testmessage"
+            android:exported="false" />
+        <activity
             android:name=".chat"
+            android:exported="false" />
+        <activity
+            android:name=".chatx"
             android:exported="false" />
         <activity
             android:name=".gig_details"

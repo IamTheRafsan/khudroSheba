@@ -1,5 +1,7 @@
 package com.example.servein;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.http.SslCertificate;
 import android.os.Bundle;
 
@@ -11,6 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,188 +31,115 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class messages extends Fragment {
 
-    RecyclerView recyclerView;
-    HashMap<String, String> hashMap;
-    HashMap<String, String> messageHashMap;
-    ArrayList<HashMap<String, String>> nameList = new ArrayList<>();
-    ArrayList<HashMap<String, String>> messageList = new ArrayList<>();
+    ListView listView;
+    private ArrayList<HashMap<String, String>> displayList = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View myView = inflater.inflate(R.layout.fragment_messages, container, false);
 
+        listView = myView.findViewById(R.id.listView);
 
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE);
+        String userEmail = sharedPreferences.getString("userEmail", "");
+        String userPassword = sharedPreferences.getString("userPassword", "");
+        String userName = sharedPreferences.getString("userName", "");
 
-        recyclerView = myView.findViewById(R.id.inboxRecycleView);
-
-
-        myAdapter adapter = new myAdapter();
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, "https://servvvv.000webhostapp.com/app/inbox_name.php?e=sending.to.evan@gmail.com", null, new Response.Listener<JSONArray>() {
-            @Override
+        JsonArrayRequest messageJsonArrayRequest = new JsonArrayRequest(Request.Method.GET, "https://servvvv.000webhostapp.com/app/inbox_message.php?e=" + userEmail, null, new Response.Listener<JSONArray>() {
             public void onResponse(JSONArray response) {
-
-
-                for (int x=0; x < response.length(); x++)
-                {
+                HashSet<String> uniqueNames = new HashSet<>(); // To store unique names
+                for (int x = 0; x < response.length(); x++) {
                     try {
                         JSONObject jsonObject = response.getJSONObject(x);
-                        String name = jsonObject.getString("name");
-                        String email = jsonObject.getString("email");
-                        String password = jsonObject.getString("password");
-                        String district = jsonObject.getString("district");
-                        String thana = jsonObject.getString("thana");
-                        String service = jsonObject.getString("service");
-                        String category = jsonObject.getString("category");
-                        String mobile = jsonObject.getString("mobile");
-                        String description = jsonObject.getString("description");
+                        String senderName = jsonObject.getString("senderName");
+                        String receiverName = jsonObject.getString("receiverName");
 
+                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE);
+                        String userName = sharedPreferences.getString("userName", "");
 
-                        hashMap = new HashMap<>();
-                        hashMap.put("name", name);
-                        hashMap.put("email", email);
-                        hashMap.put("password", password);
-                        hashMap.put("district", district);
-                        hashMap.put("thana", thana);
-                        hashMap.put("service", service);
-                        hashMap.put("category", category);
-                        hashMap.put("mobile", mobile);
-                        hashMap.put("description", description);
-                        nameList.add(hashMap);
+                        if (!receiverName.equals(userName) && !uniqueNames.contains(receiverName)) {
+                            addNameToDisplayList(receiverName);
+                            uniqueNames.add(receiverName);
+                        } else if (!senderName.equals(userName) && !uniqueNames.contains(senderName)) {
+                            addNameToDisplayList(senderName);
+                            uniqueNames.add(senderName);
+                        }
 
-
-
-
+                        Toast.makeText(getActivity(), "Working", Toast.LENGTH_SHORT).show();
 
                     } catch (JSONException e) {
-                        throw new RuntimeException(e);
+                        e.printStackTrace();
                     }
                 }
-
-                adapter.notifyDataSetChanged();
-
+                MyAdapter adapter = new MyAdapter(displayList); // Pass displayList to the adapter
+                listView.setAdapter(adapter);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
             }
         });
-
-        //--------JSON REQUEST FOR MESSAGES
-
-        JsonArrayRequest messageJsonArrayRequest = new JsonArrayRequest(Request.Method.GET, "https://servvvv.000webhostapp.com/app/inbox_message.php?e=sending.to.evan@gmail.com", null, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-
-
-                for (int x=0; x < response.length(); x++)
-                {
-                    try {
-                        JSONObject jsonObject = response.getJSONObject(x);
-                        String sender = jsonObject.getString("sender");
-                        String receiver = jsonObject.getString("receiver");
-                        String message = jsonObject.getString("message");
-
-                        messageHashMap = new HashMap<>();
-                        messageHashMap.put("sender", sender);
-                        messageHashMap.put("receiver", receiver);
-                        messageHashMap.put("message", message);
-                        messageList.add(messageHashMap);
-
-                        Toast.makeText(getActivity(), "Working ", Toast.LENGTH_SHORT).show();
-
-
-
-
-                    } catch (JSONException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-                adapter.notifyDataSetChanged();
-
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
-
 
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-        requestQueue.add(jsonArrayRequest);
         requestQueue.add(messageJsonArrayRequest);
+
 
         return myView;
     }
 
-    //-------------------------recycle view adapter
 
-    private class myAdapter extends RecyclerView.Adapter<myAdapter.myViewHolder> {
+//---------
+private void addNameToDisplayList(String name) {
+    HashMap<String, String> displayHashMap = new HashMap<>();
+    displayHashMap.put("displayName", name);
+    displayList.add(displayHashMap);
+}
+}
 
-        private class myViewHolder extends RecyclerView.ViewHolder {
+//---------
+class MyAdapter extends BaseAdapter{
 
-            TextView Dname, Dmessage;
+    private ArrayList<HashMap<String, String>> displayList; // Store displayList as a field
 
+    // Constructor to accept displayList as a parameter
+    public MyAdapter(ArrayList<HashMap<String, String>> displayList) {
+        this.displayList = displayList;
+    }
 
-            public myViewHolder(@NonNull View itemView) {
-                super(itemView);
+    @Override
+    public int getCount() {
+        return displayList.size();
+    }
 
-                Dname = itemView.findViewById(R.id.Dname);
-                Dmessage = itemView.findViewById(R.id.Dmessage);
+    @Override
+    public Object getItem(int position) {
+        return null;
+    }
 
+    @Override
+    public long getItemId(int position) {
+        return 0;
+    }
 
-            }
-        }
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        View mView = layoutInflater.inflate(R.layout.inbox, parent, false);
 
-        @NonNull
-        @Override
-        public myViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        TextView Dname = mView.findViewById(R.id.Dname);
 
-            LayoutInflater inflater = getLayoutInflater();
-            View recycleView = inflater.inflate(R.layout.inbox, parent, false);
+        HashMap<String, String> displayHashMap = displayList.get(position);
+        String displayName = displayHashMap.get("displayName");
 
-            return new myViewHolder(recycleView);
-        }
+        Dname.setText(displayName);
 
-        @Override
-        public void onBindViewHolder(@NonNull myViewHolder holder, int position) {
-
-
-
-
-            if (position < nameList.size() && position < messageList.size()) {
-                hashMap = nameList.get(position);
-                messageHashMap = messageList.get(position);
-                String name = hashMap.get("name");
-                String message = messageHashMap.get("message");
-                holder.Dname.setText(name);
-                holder.Dmessage.setText(message);
-            } else {
-                holder.Dname.setText("N/A");
-                holder.Dmessage.setText("N/A");
-            }
-
-
-
-
-        }
-
-        @Override
-        public int getItemCount() {
-            return messageList.size();
-        }
-
+        return mView;
     }
 }

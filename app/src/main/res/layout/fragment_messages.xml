@@ -11,13 +11,13 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/inboxRecycleView"
+        <ListView
+            android:id="@+id/listView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="match_parent"
+            android:clickable="true">
 
-        </androidx.recyclerview.widget.RecyclerView>
+        </ListView>
 
     </LinearLayout>
 </FrameLayout>

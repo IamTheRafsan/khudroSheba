@@ -53,6 +53,7 @@ public class home extends AppCompatActivity {
                     FragmentTransaction fragmentTransaction = fManager.beginTransaction();
                     fragmentTransaction.replace(R.id.frameLayout, new messages());
                     fragmentTransaction.commit();
+
                 }
 
                 else if(item.getItemId()==R.id.menuProfile)

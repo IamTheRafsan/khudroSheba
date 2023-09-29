@@ -1,11 +1,14 @@
 package com.example.servein;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,9 +27,9 @@ import org.json.JSONObject;
 public class gig_details extends AppCompatActivity {
 
     TextView locationBox, serviceBox, categoryBox, mobileBox, descriptionBox, proName, proEmail;
-    Button
+    Button chatBtn;
 
-    @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gig_details);
@@ -38,10 +41,11 @@ public class gig_details extends AppCompatActivity {
         TextView descriptionBox = findViewById(R.id.description);
         TextView nameBox = findViewById(R.id.proName);
         TextView emailBox = findViewById(R.id.proEmail);
+        Button chatBtn = findViewById(R.id.chatBtn);
 
-        SharedPreferences sharedPreferences2 = gig_details.this.getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE);
-        String userEmail = sharedPreferences2.getString("userEmail", "");
-        String  userPassword = sharedPreferences2.getString("userPassword", "");
+        SharedPreferences sharedPreferences2 = gig_details.this.getSharedPreferences("MyAppPreferences2", Context.MODE_PRIVATE);
+        String userEmail = sharedPreferences2.getString("xemail", "");
+        String  userPassword = sharedPreferences2.getString("xpassword", "");
 
 
         String url = "http://servvvv.000webhostapp.com/app/userDetail.php?e="+userEmail+"&p="+userPassword;
@@ -92,6 +96,15 @@ public class gig_details extends AppCompatActivity {
 
         RequestQueue requestQueue = Volley.newRequestQueue(gig_details.this);
         requestQueue.add(jsonArrayRequest);
+
+        chatBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent myintent = new Intent(gig_details.this, chat.class);
+                startActivity(myintent);
+            }
+        });
 
 
 
