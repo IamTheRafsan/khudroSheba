@@ -1,6 +1,7 @@
 package com.example.servein;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.http.SslCertificate;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -60,16 +62,19 @@ public class messages extends Fragment {
                         JSONObject jsonObject = response.getJSONObject(x);
                         String senderName = jsonObject.getString("senderName");
                         String receiverName = jsonObject.getString("receiverName");
+                        String sender = jsonObject.getString("sender");
+                        String receiver = jsonObject.getString("receiver");
+
 
                         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE);
                         String userName = sharedPreferences.getString("userName", "");
 
-                        if (!receiverName.equals(userName) && !uniqueNames.contains(receiverName)) {
-                            addNameToDisplayList(receiverName);
-                            uniqueNames.add(receiverName);
-                        } else if (!senderName.equals(userName) && !uniqueNames.contains(senderName)) {
-                            addNameToDisplayList(senderName);
-                            uniqueNames.add(senderName);
+                        if (!receiver.equals(userEmail) && !uniqueNames.contains(receiver)) {
+                            addNameToDisplayList(receiverName, receiver);
+                            uniqueNames.add(receiver);
+                        } else if (!sender.equals(userEmail) && !uniqueNames.contains(sender)) {
+                            addNameToDisplayList(senderName, sender);
+                            uniqueNames.add(sender);
                         }
 
                         Toast.makeText(getActivity(), "Working", Toast.LENGTH_SHORT).show();
@@ -90,15 +95,36 @@ public class messages extends Fragment {
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         requestQueue.add(messageJsonArrayRequest);
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                HashMap<String, String> displayHashMap = displayList.get(position);
+                String displayName = displayHashMap.get("displayName");
+                String displayRole = displayHashMap.get("displayRole");
+
+                SharedPreferences sharedPreferences2 = getActivity().getSharedPreferences("MyAppPreferences2", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences2.edit();
+                editor.putString("xemail", displayRole);
+                editor.putString("xname", displayName);
+                editor.apply();
+
+                Intent myIntent = new Intent(getActivity(), chat.class);
+                startActivity(myIntent);
+
+            }
+        });
+
 
         return myView;
     }
 
 
 //---------
-private void addNameToDisplayList(String name) {
+private void addNameToDisplayList(String name, String role) {
     HashMap<String, String> displayHashMap = new HashMap<>();
     displayHashMap.put("displayName", name);
+    displayHashMap.put("displayRole", role);
     displayList.add(displayHashMap);
 }
 }
