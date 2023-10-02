@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -27,7 +28,7 @@ public class signUp extends Fragment {
 
     EditText signUpName, signUpEmail, signUpPassword,signUpConfirmPassword;
     Button signUpBtn;
-
+    ProgressBar progressbar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,6 +40,8 @@ public class signUp extends Fragment {
         signUpPassword = myView.findViewById(R.id.signUpPassword);
         signUpConfirmPassword = myView.findViewById(R.id.signUpConfirmPassword);
         signUpBtn = myView.findViewById(R.id.signUpBtn);
+        progressbar = myView.findViewById(R.id.progressbar);
+
 
 
         signUpBtn.setOnClickListener(new View.OnClickListener() {
@@ -56,6 +59,8 @@ public class signUp extends Fragment {
                 {
                     if(signUpPassword.getText().toString().equals(signUpConfirmPassword.getText().toString()))
                     {
+                        progressbar.setVisibility(View.VISIBLE);
+
 
                         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, "http://servvvv.000webhostapp.com/app/regcon.php?e="+email, null, new Response.Listener<JSONArray>() {
                             @Override
@@ -65,6 +70,7 @@ public class signUp extends Fragment {
 
                                 if(result.length()>3)
                                 {
+                                    progressbar.setVisibility(View.GONE);
                                     new AlertDialog.Builder(getActivity())
                                             .setTitle("Email Already Exists!")
                                             .setMessage("Please put a new email.")
@@ -95,6 +101,8 @@ public class signUp extends Fragment {
 
                                     RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
                                     requestQueue.add(stringRequest);
+                                    progressbar.setVisibility(View.GONE);
+
 
                                     new AlertDialog.Builder(getActivity())
                                             .setTitle("Congratulations!")

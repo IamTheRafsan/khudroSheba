@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +42,7 @@ public class messages extends Fragment {
 
     ListView listView;
     private ArrayList<HashMap<String, String>> displayList = new ArrayList<>();
+    ProgressBar progressbar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,6 +50,9 @@ public class messages extends Fragment {
         View myView = inflater.inflate(R.layout.fragment_messages, container, false);
 
         listView = myView.findViewById(R.id.listView);
+        progressbar = myView.findViewById(R.id.progressbar);
+
+        progressbar.setVisibility(View.VISIBLE);
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE);
         String userEmail = sharedPreferences.getString("userEmail", "");
@@ -77,7 +82,7 @@ public class messages extends Fragment {
                             uniqueNames.add(sender);
                         }
 
-                        Toast.makeText(getActivity(), "Working", Toast.LENGTH_SHORT).show();
+                        progressbar.setVisibility(View.GONE);
 
                     } catch (JSONException e) {
                         e.printStackTrace();

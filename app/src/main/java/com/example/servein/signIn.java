@@ -36,7 +36,7 @@ public class signIn extends Fragment {
 
     EditText signInEmail,signInPassword;
     Button signInBtn;
-    ProgressBar progressBar;
+    ProgressBar progressbar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,7 +46,7 @@ public class signIn extends Fragment {
         signInEmail = myView.findViewById(R.id.signInEmail);
         signInPassword = myView.findViewById(R.id.signInPassword);
         signInBtn = myView.findViewById(R.id.signInBtn);
-        progressBar = myView.findViewById(R.id.progressBar);
+        progressbar = myView.findViewById(R.id.progressbar);
 
 
 
@@ -54,6 +54,7 @@ public class signIn extends Fragment {
             @Override
             public void onClick(View v) {
 
+                progressbar.setVisibility(View.VISIBLE);
 
                 String email = signInEmail.getText().toString();
                 String password = signInPassword.getText().toString();
@@ -129,6 +130,8 @@ public class signIn extends Fragment {
 
                                 RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
                                 requestQueue.add(jsonArrayRequest);
+
+                                progressbar.setVisibility(View.GONE);
 
                                 Intent myintent = new Intent(getActivity(), home.class);
                                 startActivity(myintent);

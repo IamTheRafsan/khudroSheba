@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -32,6 +33,7 @@ public class dashboard_details extends Fragment {
     TextView locationBox, serviceBox, categoryBox, mobileBox, descriptionBox;
     Button updateFragment;
     SharedPreferences sharedPreferences;
+    ProgressBar progressBar;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,6 +46,9 @@ public class dashboard_details extends Fragment {
         mobileBox = myView.findViewById(R.id.mobile);
         descriptionBox = myView.findViewById(R.id.description);
         updateFragment = myView.findViewById(R.id.updateFragment);
+        progressBar = myView.findViewById(R.id.progressbar);
+
+        progressBar.setVisibility(View.VISIBLE);
 
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE);
@@ -77,6 +82,8 @@ public class dashboard_details extends Fragment {
                         categoryBox.setText(category);
                         mobileBox.setText(mobile);
                         descriptionBox.setText(description);
+
+                        progressBar.setVisibility(View.GONE);
 
 
                     } catch (JSONException e) {

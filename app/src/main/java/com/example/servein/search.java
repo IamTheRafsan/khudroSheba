@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,6 +50,7 @@ public class search extends Fragment {
     private  String sDistrict = "";
     private String sThana = "";
     LinearLayout gigItem;
+    ProgressBar progressbar;
 
 
 
@@ -63,6 +65,10 @@ public class search extends Fragment {
         categorySpinner = myView.findViewById(R.id.categorySpinner);
         districtSpinner = myView.findViewById(R.id.districtSpinner);
         thanaSpinner = myView.findViewById(R.id.thanaSpinner);
+        progressbar = myView.findViewById(R.id.progressbar);
+
+        progressbar.setVisibility(View.VISIBLE);
+
 
         String [] category_items = getResources().getStringArray(R.array.category_items);
         String [] district_items = getResources().getStringArray(R.array.district_items);
@@ -145,6 +151,8 @@ public class search extends Fragment {
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                progressbar.setVisibility(View.VISIBLE);
 
                 arrayList = new ArrayList<>();
 
@@ -270,6 +278,8 @@ public class search extends Fragment {
                         hashMap.put("mobile", mobile);
                         hashMap.put("description", description);
                         arrayList.add(hashMap);
+
+                        progressbar.setVisibility(View.GONE);
 
 
 
