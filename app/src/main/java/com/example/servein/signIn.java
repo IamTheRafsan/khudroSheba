@@ -54,13 +54,12 @@ public class signIn extends Fragment {
             @Override
             public void onClick(View v) {
 
-                progressbar.setVisibility(View.VISIBLE);
-
                 String email = signInEmail.getText().toString();
                 String password = signInPassword.getText().toString();
 
                 if(email.length()>0 && password.length()>0)
                 {
+                    progressbar.setVisibility(View.VISIBLE);
                     JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, "http://servvvv.000webhostapp.com/app/userlogin.php?e="+email+"&p="+password, null, new Response.Listener<JSONArray>() {
                         @Override
                         public void onResponse(JSONArray response) {
@@ -69,6 +68,8 @@ public class signIn extends Fragment {
 
                             if(result.length()<3)
                             {
+                                progressbar.setVisibility(View.GONE);
+
                                 new AlertDialog.Builder(getActivity())
                                         .setTitle("Wrong Email or Password!")
                                         .setMessage("Please put all information correctly.")
@@ -84,7 +85,6 @@ public class signIn extends Fragment {
 
                             else
                             {
-
                                 String url = "http://servvvv.000webhostapp.com/app/userDetail.php?e="+email+"&p="+password;
                                 JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
                                     @Override
@@ -130,8 +130,6 @@ public class signIn extends Fragment {
 
                                 RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
                                 requestQueue.add(jsonArrayRequest);
-
-                                progressbar.setVisibility(View.GONE);
 
                                 Intent myintent = new Intent(getActivity(), home.class);
                                 startActivity(myintent);

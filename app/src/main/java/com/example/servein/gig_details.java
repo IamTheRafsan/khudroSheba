@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,7 @@ public class gig_details extends AppCompatActivity {
 
     TextView locationBox, serviceBox, categoryBox, mobileBox, descriptionBox, proName, proEmail;
     Button chatBtn;
+    ProgressBar progressbar;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,9 @@ public class gig_details extends AppCompatActivity {
         TextView nameBox = findViewById(R.id.proName);
         TextView emailBox = findViewById(R.id.proEmail);
         Button chatBtn = findViewById(R.id.chatBtn);
+        progressbar = findViewById(R.id.progressbar);
+
+        progressbar.setVisibility(View.VISIBLE);
 
         SharedPreferences sharedPreferences2 = gig_details.this.getSharedPreferences("MyAppPreferences2", Context.MODE_PRIVATE);
         String userEmail = sharedPreferences2.getString("xemail", "");
@@ -77,6 +82,8 @@ public class gig_details extends AppCompatActivity {
                         descriptionBox.setText(description);
                         nameBox.setText(name);
                         emailBox.setText(email);
+
+                        progressbar.setVisibility(View.GONE);
 
 
                     } catch (JSONException e) {

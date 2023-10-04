@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -42,6 +43,8 @@ public class chat extends AppCompatActivity {
     private String userEmail = "";
     private String xemail = "";
     private myChatAdapter adapter;
+    ProgressBar progressbar;
+    ProgressBar progressbar2;
 
 
 
@@ -53,6 +56,10 @@ public class chat extends AppCompatActivity {
         chatRecycleView = findViewById(R.id.chatRecycleView);
         messageTyped = findViewById(R.id.messageTyped);
         sendBtn = findViewById(R.id.sendBtn);
+        progressbar = findViewById(R.id.progressbar);
+        progressbar2 = findViewById(R.id.progressbar2);
+
+        progressbar.setVisibility(View.VISIBLE);
 
         adapter = new myChatAdapter();
         chatRecycleView.setAdapter(adapter);
@@ -95,6 +102,8 @@ public class chat extends AppCompatActivity {
                         messageHashMap.put("message", message);
                         messageList.add(messageHashMap);
 
+                        progressbar.setVisibility(View.GONE);
+
 
 
 
@@ -128,15 +137,19 @@ public class chat extends AppCompatActivity {
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 messageList.clear();
 
                 String url = "https://servvvv.000webhostapp.com/app/chat_send.php?sn="+userName+"&rn="+xname+"&s="+userEmail+"&r="+xemail+"&m="+messageTyped.getText().toString();
 
                 if(messageTyped.length() > 0)
                 {
+                    progressbar2.setVisibility(View.VISIBLE);
                     StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
+                            progressbar2.setVisibility(View.GONE);
+
                             new AlertDialog.Builder(chat.this)
                                     .setTitle("Message sent successfully!")
                                     .setMessage(" ")
@@ -147,10 +160,14 @@ public class chat extends AppCompatActivity {
                                         }
                                     })
                                     .show();
+                            messageTyped.setText("");
+                            progressbar.setVisibility(View.VISIBLE);
                             //-----reload message
+                            messageList.clear();
                             JsonArrayRequest messageJsonArrayRequest = new JsonArrayRequest(Request.Method.GET, "https://servvvv.000webhostapp.com/app/chat_load.php?ue="+userEmail+"&xe="+xemail, null, new Response.Listener<JSONArray>() {
                                 @Override
                                 public void onResponse(JSONArray response) {
+
 
                                     for (int x=0; x < response.length(); x++)
                                     {
@@ -171,7 +188,7 @@ public class chat extends AppCompatActivity {
                                             messageList.add(messageHashMap);
 
 
-
+                                            progressbar.setVisibility(View.GONE);
 
 
                                         } catch (JSONException e) {
@@ -209,6 +226,8 @@ public class chat extends AppCompatActivity {
                 }
                 else
                 {
+                    progressbar2.setVisibility(View.GONE);
+
                     new AlertDialog.Builder(chat.this)
                             .setTitle("No messages typed")
                             .setMessage("Please type a message")
