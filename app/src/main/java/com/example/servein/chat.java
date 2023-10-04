@@ -160,7 +160,7 @@ public class chat extends AppCompatActivity {
                                         }
                                     })
                                     .show();
-                            messageTyped.setText(" ");
+                            messageTyped.setText("");
                             progressbar.setVisibility(View.VISIBLE);
                             //-----reload message
                             messageList.clear();
