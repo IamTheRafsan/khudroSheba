@@ -112,6 +112,8 @@ public class signIn extends Fragment {
                                                 editor.putString("userName", name);
                                                 editor.apply();
 
+                                                progressbar.setVisibility(View.GONE);
+
 
                                             } catch (JSONException e) {
                                                 throw new RuntimeException(e);
@@ -149,6 +151,7 @@ public class signIn extends Fragment {
                 }
                 else
                 {
+                    progressbar.setVisibility(View.GONE);
                     new AlertDialog.Builder(getActivity())
                             .setTitle("Empty Field!")
                             .setMessage("Please fill in all the fields.")

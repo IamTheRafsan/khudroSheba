@@ -284,6 +284,7 @@ public class search extends Fragment {
 
 
                     } catch (JSONException e) {
+                        progressbar.setVisibility(View.GONE);
                         throw new RuntimeException(e);
                     }
 
@@ -321,8 +322,6 @@ public class search extends Fragment {
     {
         Toast.makeText(getActivity(), "Selected email: ", Toast.LENGTH_SHORT).show();
     }
-
-
 
 
 
